@@ -32,7 +32,7 @@ class Auth with ChangeNotifier {
 
   Future<void> signUp(String email, String password) async {
     const String url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA9JrgZENMXwDBEwCyAaRngFXsS8-TbM-g';
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB7CpF4EqTvZIQa24qa_bVxiIRlQduBUxM';
     try {
       final request = await http.post(Uri.parse(url),
           body: json.encode({
@@ -56,7 +56,7 @@ class Auth with ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     const String url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA9JrgZENMXwDBEwCyAaRngFXsS8-TbM-g';
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB7CpF4EqTvZIQa24qa_bVxiIRlQduBUxM';
     try {
       final request = await http.post(Uri.parse(url),
           body: json.encode({

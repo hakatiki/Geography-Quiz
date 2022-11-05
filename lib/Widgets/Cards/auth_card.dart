@@ -130,16 +130,16 @@ class _AuthCardState extends State<AuthCard>
       ),
       elevation: 8.0,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         height: _authMode == AuthMode.Signup ? _heightMax : _heightMin,
         constraints: BoxConstraints(
             minHeight: _authMode == AuthMode.Signup ? _heightMax : _heightMin),
         width: deviceSize.width * 0.75,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: _authMode == AuthMode.Signup
                   ? _heightMax - 30
                   : _heightMin - 30,

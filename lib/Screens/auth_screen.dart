@@ -12,7 +12,7 @@ class AuthScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'ADN Wallet',
+          'Geography Quiz',
           style: Theme.of(context).textTheme.headline3,
         ),
         backgroundColor:Theme.of(context).bottomAppBarColor,
@@ -30,13 +30,10 @@ class AuthScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                if(_checkDarkMode(context))
-                  Image.asset('assets/images/adnovum-logo-dark-mode.png', width : 80, height :80),
-                if(!_checkDarkMode(context))
-                  Image.asset('assets/images/adnovum-logo.png', width : 80, height :80),
-                Flexible(
+                const Padding(padding: EdgeInsets.all(16.0)),
+               Flexible(
                   flex: deviceSize.width > 600 ? 3 : 2,
-                  child: AuthCard(),
+                  child: const AuthCard(),
                 ),
               ],
             ),
