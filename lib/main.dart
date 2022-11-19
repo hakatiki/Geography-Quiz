@@ -7,6 +7,7 @@ import 'dart:ui';
 
 import 'Providers/auth.dart';
 import 'Providers/preferences.dart';
+import 'Screens/menu_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,7 +76,12 @@ class MyApp extends StatelessWidget {
                   button: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-              home: SettingsScreen(),
+              home: MenuScreen(),
+              routes: {
+                AuthScreen.routeName: (ctx) => AuthScreen(),
+                SettingsScreen.routeName: (ctx) => SettingsScreen(),
+                MenuScreen.routeName: (ctx) => MenuScreen(),
+              }
             )));
   }
 }
