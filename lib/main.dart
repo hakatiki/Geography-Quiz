@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/Screens/auth_screen.dart';
+import 'package:my_app/Screens/factle_screen.dart';
 import 'package:my_app/Screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -76,11 +77,12 @@ class MyApp extends StatelessWidget {
                   button: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-              home: MenuScreen(),
+              home: FactleScreen(),
               routes: {
                 AuthScreen.routeName: (ctx) => AuthScreen(),
                 SettingsScreen.routeName: (ctx) => SettingsScreen(),
                 MenuScreen.routeName: (ctx) => MenuScreen(),
+                FactleScreen.routeName: (ctx) => FactleScreen(),
               }
             )));
   }
