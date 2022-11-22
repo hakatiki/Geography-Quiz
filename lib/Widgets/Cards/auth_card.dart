@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -87,6 +88,7 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         await Provider.of<Auth>(context, listen: false)
             .signIn(_authData['email']!, _authData['password']!);
+        log('SIGN IN:');
         if (Provider.of<Auth>(context).isAuth){
           Navigator.of(context).pushNamed(MenuScreen.routeName);
         }
