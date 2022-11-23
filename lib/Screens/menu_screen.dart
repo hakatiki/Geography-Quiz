@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/Screens/factle_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/auth.dart';
@@ -33,7 +34,7 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
         children: const [
           SizedBox(height: 5),
-          WordleStyleGameCard(name: 'Wordle', desc: "Press to play", nav: "TODO", color:  Color.fromRGBO(200, 210, 200, 1.0)),
+          WordleStyleGameCard(name: 'Wordle', desc: "Press to play", nav: FactleScreen.routeName, color:  Color.fromRGBO(200, 210, 200, 1.0)),
 
           WordleStyleGameCard(name: 'Other_1', desc: "Press to play", nav: "TODO", color:  Color.fromRGBO(210, 210, 200, 1.0)),
 
@@ -101,7 +102,6 @@ class WordleStyleGameCard  extends StatelessWidget  {
           ),
           const Spacer(),
           ElevatedButton(
-            // TODO: ADD NAVIGATION TO WORDLE STYLE GAME
             onPressed: () {Navigator.of(context).pushNamed(nav);},
             style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).errorColor),

@@ -1,14 +1,8 @@
 
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/Screens/yes_no_dialog.dart';
 import 'package:provider/provider.dart';
-
-import '../Providers/auth.dart';
 import '../Providers/preferences.dart';
-import '../Widgets/Cards/settings_cards/dark_mode_settings_card.dart';
-import '../Widgets/Cards/settings_cards/logout_settings_card.dart';
 import 'menu_screen_drawer.dart';
 
 class FactleScreen extends StatefulWidget {
@@ -19,19 +13,50 @@ class FactleScreen extends StatefulWidget {
 }
 
 class _FactleScreenState extends State<FactleScreen> {
-  List<List<String>> listOfRows = [["Hungary", "Russia", "DRC", "Germany", "United States"],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]];
-  List<List<String>> listOfCorrects = [["RB", "R", "E", "R", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"]];
+  List<String> correctOrder = ["1","2","3","4","5"];
+  List<String> options = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"];
+  List<List<String>> listOfRows = [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]];
+  List<List<String>> listOfCorrects = [["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"]];
   int currentRow = 0;
   int currentPos = 0;
-  void btnPress(String button){
+  Future<void> btnPress(String button) async {
 
     if (button == 'ENTER' && currentPos == 5){
       // TODO: API CALL
-
+      int goodCounter = 0;
       setState(() {
+
+        for (int i = 0; i < 5; i++){
+          if (listOfRows[currentRow][i] == correctOrder[i]){
+            listOfCorrects[currentRow][i] = "R";
+            goodCounter+=1;
+          }
+          else if (correctOrder.contains(listOfRows[currentRow][i])){
+            listOfCorrects[currentRow][i] = "RB";
+          }
+          else{
+            listOfCorrects[currentRow][i] = "E";
+          }
+        }
         currentRow += 1;
         currentPos = 0;
       });
+      if (goodCounter == 5){
+          // TODO WIN
+        await yesNoDialog(
+              context: context,
+              title: "You won the game!",
+              content: "Congratulations!",
+              onYes: (){});
+      }
+      else if (currentRow == 4 && goodCounter != 5){
+        // TODO LOSE
+         await yesNoDialog(
+          context: context,
+          title: "You lost the game!",
+          content: "You are lame go learn some geography!",
+          onYes: (){});
+      }
     }
     else if (button == 'DELETE'){
       if (currentPos != 0){
@@ -54,6 +79,9 @@ class _FactleScreenState extends State<FactleScreen> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Preferences>(context);
+    List<String> lastRowOfOptions = options.sublist(15,18);
+    lastRowOfOptions.insert(0, "ENTER");
+    lastRowOfOptions.insert(4, "DELETE");
     return Scaffold(
       drawer: MenuScreenDrawer(),
       appBar: AppBar(
@@ -66,21 +94,18 @@ class _FactleScreenState extends State<FactleScreen> {
       body: SingleChildScrollView(
           child: Column(
         children:  [
-          const SizedBox(height: 10),
-          const Center(child: Text("Factle",
-            style: TextStyle(fontSize: 35),
-          )),
           const SizedBox(height: 20,),
           const Center(child: Text("Largest countries by land mass",style: TextStyle(fontSize: 25),)),
+          const SizedBox(height: 20,),
           for (var i = 0; i < 4; i++)...[
             RowBoxes(values:listOfRows[i], correct:listOfCorrects[i]),
           ],
           const SizedBox( height:25),
+          for (var i = 0; i <= 3; i++)...[
+            i==3?RowButtons(values:lastRowOfOptions, callback:btnPress):
+                RowButtons(values:options.sublist(i*5,i*5+5), callback:btnPress),
+          ],
 
-          RowButtons(values:["Hungary", "Russia", "DRC", "Germany", "United States"], callback:btnPress),
-          RowButtons(values:["1", "3", "5", "7", "9"], callback:btnPress),
-          RowButtons(values:["2", "4", "6", "8", "10"], callback:btnPress),
-          RowButtons(values:["ENTER", "Russia", "DRC", "Germany", "DELETE"], callback:btnPress),
 
 
         ],
