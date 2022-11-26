@@ -19,10 +19,9 @@ class FactleScreen extends StatefulWidget {
 
 class _FactleScreenState extends State<FactleScreen> {
   final DBProvider db = new DBProvider();
-  //Future<Quiz> quiz = db.getQuiz();
   String question = "";
-  late List<String> correctOrder = ["1","2","3","4","5"];
-  List<String> options = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"];
+  late List<String> correctOrder = ["","","","",""];
+  List<String> options = ["","","","","","","","","","","","","","","","","",""];
   List<List<String>> listOfRows = [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]];
   List<List<String>> listOfCorrects = [["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"]];
   int currentRow = 0;
@@ -86,24 +85,19 @@ class _FactleScreenState extends State<FactleScreen> {
   }
 
   Future<void> fetchQuiz() async {
-    const String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/06-11-22.json?';
+    const String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/05-11-22.json?';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(response.body);
-    print(data);
-    print(question);
-    var answers = data['answer']..removeAt(0);
-
     setState(() {
       question = data['question'];
-      correctOrder = answers.cast<String>();
+      correctOrder = data['answer'].cast<String>();
+      options = data['options'].cast<String>();
     });
   }
 
   @override
   void initState()  {
-    //Future<Quiz> quiz = db.getQuiz();
     fetchQuiz();
-
     super.initState();
   }
 
@@ -113,7 +107,6 @@ class _FactleScreenState extends State<FactleScreen> {
     List<String> lastRowOfOptions = options.sublist(15,18);
     lastRowOfOptions.insert(0, "ENTER");
     lastRowOfOptions.insert(4, "DELETE");
-    //print(question);
     return Scaffold(
       appBar: AppBar(
 
