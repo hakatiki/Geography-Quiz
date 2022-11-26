@@ -1,9 +1,14 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:my_app/Providers/db_provider.dart';
 import 'package:my_app/Screens/yes_no_dialog.dart';
 import 'package:provider/provider.dart';
+import '../Models/quiz.dart';
 import '../Providers/preferences.dart';
 import 'menu_screen_drawer.dart';
+import 'package:http/http.dart' as http;
 
 class FactleScreen extends StatefulWidget {
   static const String routeName = '/factle_screen';
@@ -13,7 +18,10 @@ class FactleScreen extends StatefulWidget {
 }
 
 class _FactleScreenState extends State<FactleScreen> {
-  List<String> correctOrder = ["1","2","3","4","5"];
+  final DBProvider db = new DBProvider();
+  //Future<Quiz> quiz = db.getQuiz();
+  String question = "";
+  late List<String> correctOrder = ["1","2","3","4","5"];
   List<String> options = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"];
   List<List<String>> listOfRows = [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]];
   List<List<String>> listOfCorrects = [["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"]];
@@ -76,12 +84,34 @@ class _FactleScreenState extends State<FactleScreen> {
     }
     return;
   }
+
+  Future<void> fetchQuiz() async {
+    const String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/06-11-22.json?';
+    final response = await http.get(Uri.parse(url));
+    final data = json.decode(response.body);
+    //print(data);
+    question = data['question'];
+    //print(question);
+    var answers = data['answer']..removeAt(0);
+    correctOrder = answers.cast<String>();
+
+  }
+
+  @override
+  void initState() {
+    //Future<Quiz> quiz = db.getQuiz();
+    fetchQuiz();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Provider.of<Preferences>(context);
     List<String> lastRowOfOptions = options.sublist(15,18);
     lastRowOfOptions.insert(0, "ENTER");
     lastRowOfOptions.insert(4, "DELETE");
+    //print(question);
     return Scaffold(
       drawer: MenuScreenDrawer(),
       appBar: AppBar(
@@ -95,7 +125,7 @@ class _FactleScreenState extends State<FactleScreen> {
           child: Column(
         children:  [
           const SizedBox(height: 20,),
-          const Center(child: Text("Largest countries by land mass",style: TextStyle(fontSize: 25),)),
+          Center(child: Text(question, style: TextStyle(fontSize: 25),)),
           const SizedBox(height: 20,),
           for (var i = 0; i < 4; i++)...[
             RowBoxes(values:listOfRows[i], correct:listOfCorrects[i]),
