@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_app/Providers/auth.dart';
 import 'package:my_app/Providers/db_provider.dart';
 import 'package:my_app/Screens/yes_no_dialog.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,9 @@ class _FactleScreenState extends State<FactleScreen> {
   }
 
   Future<void> fetchQuiz() async {
-    const String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/05-11-22.json?';
+    const String today = '05-11-22';
+    final token = Provider.of<Auth>(context, listen: false).token;
+    final String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/$today.json?auth=$token';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(response.body);
     setState(() {
