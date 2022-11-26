@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
                   button: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-              home: MenuScreen(),
+              home: AuthScreen(),
               routes: {
                 AuthScreen.routeName: (ctx) => AuthScreen(),
                 SettingsScreen.routeName: (ctx) => SettingsScreen(),

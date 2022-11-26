@@ -50,20 +50,20 @@ class _FactleScreenState extends State<FactleScreen> {
         currentPos = 0;
       });
       if (goodCounter == 5){
-          // TODO WIN
+        // TODO WIN
         await yesNoDialog(
-              context: context,
-              title: "You won the game!",
-              content: "Congratulations!",
-              onYes: (){});
+            context: context,
+            title: "You won the game!",
+            content: "Congratulations!",
+            onYes: (){});
       }
       else if (currentRow == 4 && goodCounter != 5){
         // TODO LOSE
-         await yesNoDialog(
-          context: context,
-          title: "You lost the game!",
-          content: "You are lame go learn some geography!",
-          onYes: (){});
+        await yesNoDialog(
+            context: context,
+            title: "You lost the game!",
+            content: "You are lame go learn some geography!",
+            onYes: (){});
       }
     }
     else if (button == 'DELETE'){
@@ -89,16 +89,18 @@ class _FactleScreenState extends State<FactleScreen> {
     const String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/06-11-22.json?';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(response.body);
-    //print(data);
-    question = data['question'];
-    //print(question);
+    print(data);
+    print(question);
     var answers = data['answer']..removeAt(0);
-    correctOrder = answers.cast<String>();
 
+    setState(() {
+      question = data['question'];
+      correctOrder = answers.cast<String>();
+    });
   }
 
   @override
-  void initState() {
+  void initState()  {
     //Future<Quiz> quiz = db.getQuiz();
     fetchQuiz();
 
@@ -113,7 +115,6 @@ class _FactleScreenState extends State<FactleScreen> {
     lastRowOfOptions.insert(4, "DELETE");
     //print(question);
     return Scaffold(
-      drawer: MenuScreenDrawer(),
       appBar: AppBar(
 
         title: Text(
@@ -123,23 +124,23 @@ class _FactleScreenState extends State<FactleScreen> {
       ),
       body: SingleChildScrollView(
           child: Column(
-        children:  [
-          const SizedBox(height: 20,),
-          Center(child: Text(question, style: TextStyle(fontSize: 25),)),
-          const SizedBox(height: 20,),
-          for (var i = 0; i < 4; i++)...[
-            RowBoxes(values:listOfRows[i], correct:listOfCorrects[i]),
-          ],
-          const SizedBox( height:25),
-          for (var i = 0; i <= 3; i++)...[
-            i==3?RowButtons(values:lastRowOfOptions, callback:btnPress):
+            children:  [
+              const SizedBox(height: 10,),
+              Center(child: Text(question, style: TextStyle(fontSize: 23),)),
+              const SizedBox(height: 10,),
+              for (var i = 0; i < 4; i++)...[
+                RowBoxes(values:listOfRows[i], correct:listOfCorrects[i]),
+              ],
+              const SizedBox( height:10),
+              for (var i = 0; i <= 3; i++)...[
+                i==3?RowButtons(values:lastRowOfOptions, callback:btnPress):
                 RowButtons(values:options.sublist(i*5,i*5+5), callback:btnPress),
-          ],
+              ],
 
 
 
-        ],
-      )),
+            ],
+          )),
     );
   }
 }
@@ -201,8 +202,8 @@ class _RowButtonsState extends State<RowButtons> {
 class RowBoxes extends StatefulWidget {
 
   RowBoxes({super.key,
-  required this.values,
-  required this.correct});
+    required this.values,
+    required this.correct});
 
   final List<String> values;
   final List<String> correct;
@@ -225,8 +226,8 @@ class _RowBoxesState extends State<RowBoxes> {
             for (var i = 0; i < 5; i++)...[
               Container(
                 decoration: BoxDecoration(
-                  color: widget.correct[i] == "R"? Colors.green: widget.correct[i] == "RB"?Colors.amberAccent:Colors.white,
-                  border: Border.all(color: Colors.black, width: 2,),
+                    color: widget.correct[i] == "R"? Colors.green: widget.correct[i] == "RB"?Colors.amberAccent:Colors.white,
+                    border: Border.all(color: Colors.black, width: 2,),
                     borderRadius: const BorderRadius.all(Radius.circular(5))
                 ),
                 width: boxWidth,
@@ -234,12 +235,12 @@ class _RowBoxesState extends State<RowBoxes> {
                 child: Center(
 
                     child: Text(widget.values[i],
-                style: const TextStyle(fontSize: 15),
-                )),
+                      style: const TextStyle(fontSize: 15),
+                    )),
               ),
               if (i != 4)
                 const Spacer(),
-              ]
+            ]
           ],
         ),
       ),

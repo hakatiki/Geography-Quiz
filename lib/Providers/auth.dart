@@ -65,10 +65,12 @@ class Auth with ChangeNotifier {
             'returnSecureToken': true,
           }));
       final responseDate = json.decode(request.body);
+      print(responseDate);
       if (responseDate['error'] != null) {
         throw HttpException(
             'An error occurred, ${responseDate['error']['message']}');
       } else {
+        print('signedin');
         _authToken = responseDate['idToken'];
         _userId = responseDate['localId'];
         _expiryData = DateTime.now()
