@@ -39,8 +39,8 @@ class MenuScreenDrawer extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.indigoAccent,),
-                    child: Icon(CupertinoIcons.gear, color:Colors.white, size: 20,)),
-                title: Text('Temp', style: Theme.of(context).textTheme.bodyText2,),
+                    child: Icon(CupertinoIcons.at , color:Colors.white, size: 20,)),
+                title: Text('Statistics', style: Theme.of(context).textTheme.bodyText2,),
                 onTap: (){
                   // Navigator.of(context).pushNamed(SettingsScreen.routeName);
                 },
@@ -54,8 +54,23 @@ class MenuScreenDrawer extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.indigoAccent,),
-                    child: Icon(CupertinoIcons.gear, color:Colors.white, size: 20,)),
-                title: Text('Temp', style: Theme.of(context).textTheme.bodyText2,),
+                    child: Icon(CupertinoIcons.book  , color:Colors.white, size: 20,)),
+                title: Text('History', style: Theme.of(context).textTheme.bodyText2,),
+                onTap: (){
+                  // Navigator.of(context).pushNamed(SettingsScreen.routeName);
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading:  Container(
+                    width: 30,
+                    height: 30,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.indigoAccent,),
+                    child: Icon(CupertinoIcons.capslock , color:Colors.white, size: 20,)),
+                title: Text('Leaderboard', style: Theme.of(context).textTheme.bodyText2,),
                 onTap: (){
                   // Navigator.of(context).pushNamed(SettingsScreen.routeName);
                 },

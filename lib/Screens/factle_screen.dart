@@ -175,16 +175,16 @@ class _RowButtonsState extends State<RowButtons> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color:Colors.white,
+                      color:Theme.of(context).cardColor,
                       border: Border.all(color: Colors.black, width: 2,),
-                      borderRadius: const BorderRadius.all(Radius.circular(5))
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
                   width: boxWidth,
                   height: boxWidth,
                   child: Center(
 
                       child: Text(widget.values[i],
-                        style: const TextStyle(fontSize: 15),
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 10),
                       )),
                 ),
               ),
@@ -226,16 +226,16 @@ class _RowBoxesState extends State<RowBoxes> {
             for (var i = 0; i < 5; i++)...[
               Container(
                 decoration: BoxDecoration(
-                    color: widget.correct[i] == "R"? Colors.green: widget.correct[i] == "RB"?Colors.amberAccent:Colors.white,
+                    color: widget.correct[i] == "R"? Colors.green: widget.correct[i] == "RB"?Colors.amberAccent:Theme.of(context).cardColor,
                     border: Border.all(color: Colors.black, width: 2,),
-                    borderRadius: const BorderRadius.all(Radius.circular(5))
+                    borderRadius: const BorderRadius.all(Radius.circular(10))
                 ),
                 width: boxWidth,
                 height: boxWidth,
                 child: Center(
 
                     child: Text(widget.values[i],
-                      style: const TextStyle(fontSize: 15),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 10),
                     )),
               ),
               if (i != 4)

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/Screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Providers/auth.dart';
@@ -50,7 +51,9 @@ class LogoutSettingsCard extends StatelessWidget {
           ),
           Spacer(),
           ElevatedButton(
-            onPressed: () {Provider.of<Auth>(context, listen: false).logout();Navigator.of(context).pop();},
+            onPressed: () {
+              Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).pushNamedAndRemoveUntil(AuthScreen.routeName, (Route<dynamic> route) => false);},
             child: Text('Logout'),
             style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).errorColor),

@@ -32,13 +32,15 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: SingleChildScrollView(
           child: Column(
-        children: const [
+        children:  [
           SizedBox(height: 5),
-          WordleStyleGameCard(name: 'Wordle', desc: "Press to play", nav: FactleScreen.routeName, color:  Color.fromRGBO(200, 210, 200, 1.0)),
+          WordleStyleGameCard(name: 'Factle', desc: "Guess the right order!", nav: FactleScreen.routeName, color:(Provider.of<Preferences>(context, listen: false).isDark?Color.fromRGBO(30, 40, 50, 1.0):Color.fromRGBO(200, 210, 200, 1.0))),
 
-          WordleStyleGameCard(name: 'Other_1', desc: "Press to play", nav: "TODO", color:  Color.fromRGBO(210, 210, 200, 1.0)),
+          WordleStyleGameCard(name: 'Wordle', desc: "Guess the country by its shape!", nav: FactleScreen.routeName, color:(Provider.of<Preferences>(context, listen: false).isDark?Color.fromRGBO(35, 45, 30, 1.0):  Color.fromRGBO(210, 210, 200, 1.0))),
 
-          WordleStyleGameCard(name: 'Other_2', desc: "Press to play", nav: "TODO", color:  Color.fromRGBO(200, 210, 210, 1.0))
+          WordleStyleGameCard(name: 'Tradle', desc: "Which country exports these products?", nav: FactleScreen.routeName, color:(Provider.of<Preferences>(context, listen: false).isDark?Color.fromRGBO(20, 60, 54, 1.0):  Color.fromRGBO(205, 215, 215, 1.0))),
+
+          WordleStyleGameCard(name: 'Flagle', desc: "Guess the country based on the flag!", nav: FactleScreen.routeName, color:(Provider.of<Preferences>(context, listen: false).isDark?Color.fromRGBO(35, 45, 55, 1.0):  Color.fromRGBO(200, 190, 180, 1.0))),
 
 
         ],

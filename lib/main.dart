@@ -28,63 +28,85 @@ class MyApp extends StatelessWidget {
                 create: (ctx) => Auth(),
               )
             ],
-            child: MaterialApp(
-              title: 'GeoQuiz',
-              theme: ThemeData.light().copyWith(
-                brightness: Brightness.light,
-                appBarTheme: const AppBarTheme(
-                  backgroundColor: Colors.white,
-                  iconTheme: IconThemeData(color: Colors.black),
-                ),
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                cardColor: Colors.white,
-                backgroundColor: Colors.white,
-                scaffoldBackgroundColor: const Color.fromRGBO(240, 240, 240, 1),
-                textTheme: const TextTheme(
-                  headline3: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                  subtitle1: TextStyle(color: Colors.grey, fontSize: 16),
-                  subtitle2: TextStyle(color: Colors.black, fontSize: 16),
-                  headline5: TextStyle(color: Colors.black, fontSize: 16),
-                  bodyText2: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  button: TextStyle(color: Colors.black, fontSize: 16),
-                ),
-              ),
-              darkTheme: ThemeData.dark().copyWith(
-                primaryColor: Colors.blue,
-                brightness: Brightness.dark,
-                floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                    backgroundColor: Colors.blue),
-                textTheme: const TextTheme(
-                  // For appbars
-                  headline3: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                  // For forms
-                  headline5: TextStyle(color: Colors.white, fontSize: 16),
-                  bodyText2: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  subtitle1: TextStyle(color: Colors.grey, fontSize: 16),
-                  subtitle2: TextStyle(color: Colors.white, fontSize: 16),
-                  button: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-              home: AuthScreen(),
-              routes: {
-                AuthScreen.routeName: (ctx) => AuthScreen(),
-                SettingsScreen.routeName: (ctx) => SettingsScreen(),
-                MenuScreen.routeName: (ctx) => MenuScreen(),
-                FactleScreen.routeName: (ctx) => FactleScreen(),
-              }
-            )));
+            child: Consumer<Preferences>(
+                builder: (context, preferences, child) => FutureBuilder(
+                    future: preferences.getDarkMode(),
+                    builder: (context, snapshot) => snapshot.connectionState ==
+                            ConnectionState.waiting
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : MaterialApp(
+                            title: 'GeoQuiz',
+                            theme: ThemeData.light().copyWith(
+                              brightness: Brightness.light,
+                              appBarTheme: const AppBarTheme(
+                                backgroundColor: Colors.white,
+                                iconTheme: IconThemeData(color: Colors.black),
+                              ),
+                              visualDensity:
+                                  VisualDensity.adaptivePlatformDensity,
+                              cardColor: Colors.white,
+                              backgroundColor: Colors.white,
+                              scaffoldBackgroundColor:
+                                  const Color.fromRGBO(240, 240, 240, 1),
+                              textTheme: const TextTheme(
+                                headline3: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                                subtitle1:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                subtitle2: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                                headline5: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                                bodyText2: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                                button: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                            ),
+                            darkTheme: ThemeData.dark().copyWith(
+                              primaryColor: Colors.blue,
+                              brightness: Brightness.dark,
+                              floatingActionButtonTheme:
+                                  const FloatingActionButtonThemeData(
+                                      backgroundColor: Colors.blue),
+                              textTheme: const TextTheme(
+                                // For appbars
+                                headline3: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                                // For forms
+                                headline5: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                                bodyText2: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                                subtitle1:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                subtitle2: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                                button: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                            themeMode: preferences.isDark
+                                ? ThemeMode.dark
+                                : ThemeMode.light,
+                            home: MenuScreen(),
+                            routes: {
+                                AuthScreen.routeName: (ctx) => AuthScreen(),
+                                SettingsScreen.routeName: (ctx) =>
+                                    SettingsScreen(),
+                                MenuScreen.routeName: (ctx) => MenuScreen(),
+                                FactleScreen.routeName: (ctx) => FactleScreen(),
+                              })))));
   }
 }
 
