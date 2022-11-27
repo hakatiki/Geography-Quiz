@@ -39,8 +39,8 @@ class _AuthCardState extends State<AuthCard>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
   }
 
   @override
@@ -51,7 +51,7 @@ class _AuthCardState extends State<AuthCard>
 
   bool _isValidInput() {
     if (_authMode == AuthMode.Login) return _isEmailValid && _isPasswordValid;
-    if (_authMode == AuthMode.Signup){
+    if (_authMode == AuthMode.Signup) {
       return _isEmailValid && _isPasswordValid && _isConfirmValid;
     }
     return false;
@@ -62,8 +62,12 @@ class _AuthCardState extends State<AuthCard>
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Text(title, style: Theme.of(context).textTheme.bodyText2,),
-            content: Text(content , style: Theme.of(context).textTheme.subtitle1),
+            title: Text(
+              title,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            content:
+                Text(content, style: Theme.of(context).textTheme.subtitle1),
             actions: [
               TextButton(
                   onPressed: () {
@@ -88,8 +92,7 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         await Provider.of<Auth>(context, listen: false)
             .signIn(_authData['email']!, _authData['password']!);
-        if (Provider.of<Auth>(context, listen: false).isAuth){
-
+        if (Provider.of<Auth>(context, listen: false).isAuth) {
           Navigator.of(context).pushNamed(MenuScreen.routeName);
         }
       } else {
@@ -169,7 +172,8 @@ class _AuthCardState extends State<AuthCard>
                         height: 5,
                       ),
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'Password'),
+                        decoration:
+                            const InputDecoration(labelText: 'Password'),
                         obscureText: true,
                         controller: _passwordController,
                         validator: (value) => _validatePassword(value),
@@ -185,8 +189,8 @@ class _AuthCardState extends State<AuthCard>
                       if (_authMode == AuthMode.Signup)
                         TextFormField(
                           enabled: _authMode == AuthMode.Signup,
-                          decoration:
-                          const InputDecoration(labelText: 'Confirm Password'),
+                          decoration: const InputDecoration(
+                              labelText: 'Confirm Password'),
                           obscureText: true,
                           validator: (value) => _validateSignupPassword(value),
                           style: Theme.of(context).textTheme.headline5,
@@ -204,7 +208,7 @@ class _AuthCardState extends State<AuthCard>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30.0, vertical: 8.0),
                           materialTapTargetSize:
-                          MaterialTapTargetSize.shrinkWrap,
+                              MaterialTapTargetSize.shrinkWrap,
                           textColor: Theme.of(context).textTheme.button!.color,
                           child: Text(_authMode == AuthMode.Login
                               ? 'LOGIN'
@@ -215,8 +219,8 @@ class _AuthCardState extends State<AuthCard>
                       ),
                       MaterialButton(
                         onPressed: _switchAuthMode,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 4),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         textColor: Theme.of(context).textTheme.button?.color,
                         child: Text(

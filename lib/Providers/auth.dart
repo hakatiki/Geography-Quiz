@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 import '../Models/http_exception.dart';
 
-
 class Auth with ChangeNotifier {
   late String _authToken;
   late String _userId;
@@ -82,7 +81,7 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout(){
+  void logout() {
     _authToken = 'null';
     _expiryData = DateTime(0);
     _userId = 'null';

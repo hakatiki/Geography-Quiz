@@ -20,21 +20,21 @@ class _DarkModeSettingsCardState extends State<DarkModeSettingsCard> {
         borderRadius: BorderRadius.circular(8.0),
         color: Theme.of(context).cardColor,
       ),
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Icon(
               CupertinoIcons.moon_stars,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
-            flex:4,
+            flex: 4,
             child: Container(
               //width: 250,
               child: Column(
@@ -52,7 +52,7 @@ class _DarkModeSettingsCardState extends State<DarkModeSettingsCard> {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Theme.of(context).platform == TargetPlatform.iOS
               ? CupertinoSwitch(
                   value: _switchValue,
@@ -62,7 +62,7 @@ class _DarkModeSettingsCardState extends State<DarkModeSettingsCard> {
                   value: _switchValue,
                   onChanged: (value) => _onChanged(value),
                 ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
         ],

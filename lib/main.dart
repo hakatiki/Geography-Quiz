@@ -99,7 +99,7 @@ class MyApp extends StatelessWidget {
                             themeMode: preferences.isDark
                                 ? ThemeMode.dark
                                 : ThemeMode.light,
-                              home: AuthScreen(),
+                            home: AuthScreen(),
                             routes: {
                                 AuthScreen.routeName: (ctx) => AuthScreen(),
                                 SettingsScreen.routeName: (ctx) =>

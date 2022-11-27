@@ -15,7 +15,7 @@ class AuthScreen extends StatelessWidget {
           'Geography Quiz',
           style: Theme.of(context).textTheme.headline3,
         ),
-        backgroundColor:Theme.of(context).bottomAppBarColor,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -31,7 +31,7 @@ class AuthScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const Padding(padding: EdgeInsets.all(16.0)),
-               Flexible(
+                Flexible(
                   flex: deviceSize.width > 600 ? 3 : 2,
                   child: const AuthCard(),
                 ),

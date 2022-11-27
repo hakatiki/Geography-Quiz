@@ -17,21 +17,21 @@ class LogoutSettingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         color: Theme.of(context).cardColor,
       ),
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Icon(
               CupertinoIcons.xmark_seal,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
-            flex:4,
+            flex: 4,
             child: Container(
               width: 200,
               child: Column(
@@ -49,14 +49,16 @@ class LogoutSettingsCard extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           ElevatedButton(
             onPressed: () {
               Provider.of<Auth>(context, listen: false).logout();
-              Navigator.of(context).pushNamedAndRemoveUntil(AuthScreen.routeName, (Route<dynamic> route) => false);},
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  AuthScreen.routeName, (Route<dynamic> route) => false);
+            },
+            style:
+                ElevatedButton.styleFrom(primary: Theme.of(context).errorColor),
             child: Text('Logout'),
-            style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).errorColor),
           ),
         ],
       ),

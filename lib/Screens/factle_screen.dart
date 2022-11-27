@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,9 +5,7 @@ import 'package:my_app/Providers/auth.dart';
 import 'package:my_app/Providers/db_provider.dart';
 import 'package:my_app/Screens/yes_no_dialog.dart';
 import 'package:provider/provider.dart';
-import '../Models/quiz.dart';
 import '../Providers/preferences.dart';
-import 'menu_screen_drawer.dart';
 import 'package:http/http.dart' as http;
 
 class FactleScreen extends StatefulWidget {
@@ -21,61 +18,84 @@ class FactleScreen extends StatefulWidget {
 class _FactleScreenState extends State<FactleScreen> {
   final DBProvider db = new DBProvider();
   String question = "";
-  late List<String> correctOrder = ["","","","",""];
-  List<String> options = ["","","","","","","","","","","","","","","","","",""];
-  List<List<String>> listOfRows = [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]];
-  List<List<String>> listOfCorrects = [["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"],["E", "E", "E", "E", "E"]];
+  late List<String> correctOrder = ["", "", "", "", ""];
+  List<String> options = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ];
+  List<List<String>> listOfRows = [
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""]
+  ];
+  List<List<String>> listOfCorrects = [
+    ["E", "E", "E", "E", "E"],
+    ["E", "E", "E", "E", "E"],
+    ["E", "E", "E", "E", "E"],
+    ["E", "E", "E", "E", "E"]
+  ];
   int currentRow = 0;
   int currentPos = 0;
-  Future<void> btnPress(String button) async {
 
-    if (button == 'ENTER' && currentPos == 5){
+  Future<void> btnPress(String button) async {
+    if (button == 'ENTER' && currentPos == 5) {
       // TODO: API CALL
       int goodCounter = 0;
       setState(() {
-
-        for (int i = 0; i < 5; i++){
-          if (listOfRows[currentRow][i] == correctOrder[i]){
+        for (int i = 0; i < 5; i++) {
+          if (listOfRows[currentRow][i] == correctOrder[i]) {
             listOfCorrects[currentRow][i] = "R";
-            goodCounter+=1;
-          }
-          else if (correctOrder.contains(listOfRows[currentRow][i])){
+            goodCounter += 1;
+          } else if (correctOrder.contains(listOfRows[currentRow][i])) {
             listOfCorrects[currentRow][i] = "RB";
-          }
-          else{
+          } else {
             listOfCorrects[currentRow][i] = "E";
           }
         }
         currentRow += 1;
         currentPos = 0;
       });
-      if (goodCounter == 5){
+      if (goodCounter == 5) {
         // TODO WIN
         await yesNoDialog(
             context: context,
             title: "You won the game!",
             content: "Congratulations!",
-            onYes: (){});
-      }
-      else if (currentRow == 4 && goodCounter != 5){
+            onYes: () {});
+      } else if (currentRow == 4 && goodCounter != 5) {
         // TODO LOSE
         await yesNoDialog(
             context: context,
             title: "You lost the game!",
             content: "You are lame go learn some geography!",
-            onYes: (){});
+            onYes: () {});
       }
-    }
-    else if (button == 'DELETE'){
-      if (currentPos != 0){
+    } else if (button == 'DELETE') {
+      if (currentPos != 0) {
         setState(() {
-          listOfRows[currentRow][currentPos-1] = "";
+          listOfRows[currentRow][currentPos - 1] = "";
           currentPos -= 1;
         });
       }
-    }
-    else if (button != 'ENTER' && button != 'DELETE'){
-      if (currentPos <= 4 && !listOfRows[currentRow].contains(button) ){
+    } else if (button != 'ENTER' && button != 'DELETE') {
+      if (currentPos <= 4 && !listOfRows[currentRow].contains(button)) {
         setState(() {
           listOfRows[currentRow][currentPos] = button;
           currentPos += 1;
@@ -88,7 +108,8 @@ class _FactleScreenState extends State<FactleScreen> {
   Future<void> fetchQuiz() async {
     const String today = '05-11-22';
     final token = Provider.of<Auth>(context, listen: false).token;
-    final String url = 'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/$today.json?auth=$token';
+    final String url =
+        'https://geo-quiz-nb-default-rtdb.firebaseio.com/game/$today.json?auth=$token';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(response.body);
     setState(() {
@@ -99,7 +120,7 @@ class _FactleScreenState extends State<FactleScreen> {
   }
 
   @override
-  void initState()  {
+  void initState() {
     fetchQuiz();
     super.initState();
   }
@@ -107,12 +128,11 @@ class _FactleScreenState extends State<FactleScreen> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Preferences>(context);
-    List<String> lastRowOfOptions = options.sublist(15,18);
+    List<String> lastRowOfOptions = options.sublist(15, 18);
     lastRowOfOptions.insert(0, "ENTER");
     lastRowOfOptions.insert(4, "DELETE");
     return Scaffold(
       appBar: AppBar(
-
         title: Text(
           'Factle',
           style: Theme.of(context).textTheme.headline3,
@@ -120,23 +140,31 @@ class _FactleScreenState extends State<FactleScreen> {
       ),
       body: SingleChildScrollView(
           child: Column(
-            children:  [
-              const SizedBox(height: 10,),
-              Center(child: Text(question, style: TextStyle(fontSize: 23),)),
-              const SizedBox(height: 10,),
-              for (var i = 0; i < 4; i++)...[
-                RowBoxes(values:listOfRows[i], correct:listOfCorrects[i]),
-              ],
-              const SizedBox( height:10),
-              for (var i = 0; i <= 3; i++)...[
-                i==3?RowButtons(values:lastRowOfOptions, callback:btnPress):
-                RowButtons(values:options.sublist(i*5,i*5+5), callback:btnPress),
-              ],
-
-
-
-            ],
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+              child: Text(
+            question,
+            style: TextStyle(fontSize: 23),
           )),
+          const SizedBox(
+            height: 10,
+          ),
+          for (var i = 0; i < 4; i++) ...[
+            RowBoxes(values: listOfRows[i], correct: listOfCorrects[i]),
+          ],
+          const SizedBox(height: 10),
+          for (var i = 0; i <= 3; i++) ...[
+            i == 3
+                ? RowButtons(values: lastRowOfOptions, callback: btnPress)
+                : RowButtons(
+                    values: options.sublist(i * 5, i * 5 + 5),
+                    callback: btnPress),
+          ],
+        ],
+      )),
     );
   }
 }
@@ -150,6 +178,7 @@ class RowButtons extends StatefulWidget {
 
   final List<String> values;
   Function(String)? callback;
+
   @override
   State<RowButtons> createState() => _RowButtonsState();
 }
@@ -164,28 +193,33 @@ class _RowButtonsState extends State<RowButtons> {
       child: Center(
         child: Row(
           children: [
-            for (var i = 0; i < 5; i++)...[
+            for (var i = 0; i < 5; i++) ...[
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   widget.callback!(widget.values[i]);
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color:Theme.of(context).cardColor,
-                      border: Border.all(color: Colors.black, width: 2,),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))
-                  ),
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
                   width: boxWidth,
                   height: boxWidth,
                   child: Center(
-
-                      child: Text(widget.values[i],
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 10),
-                      )),
+                      child: Text(
+                    widget.values[i],
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontSize: 10),
+                  )),
                 ),
               ),
-              if (i != 4)
-                const Spacer(),
+              if (i != 4) const Spacer(),
             ]
           ],
         ),
@@ -194,16 +228,11 @@ class _RowButtonsState extends State<RowButtons> {
   }
 }
 
-
 class RowBoxes extends StatefulWidget {
-
-  RowBoxes({super.key,
-    required this.values,
-    required this.correct});
+  RowBoxes({super.key, required this.values, required this.correct});
 
   final List<String> values;
   final List<String> correct;
-
 
   @override
   State<RowBoxes> createState() => _RowBoxesState();
@@ -219,23 +248,31 @@ class _RowBoxesState extends State<RowBoxes> {
       child: Center(
         child: Row(
           children: [
-            for (var i = 0; i < 5; i++)...[
+            for (var i = 0; i < 5; i++) ...[
               Container(
                 decoration: BoxDecoration(
-                    color: widget.correct[i] == "R"? Colors.green: widget.correct[i] == "RB"?Colors.amberAccent:Theme.of(context).cardColor,
-                    border: Border.all(color: Colors.black, width: 2,),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))
-                ),
+                    color: widget.correct[i] == "R"
+                        ? Colors.green
+                        : widget.correct[i] == "RB"
+                            ? Colors.amberAccent
+                            : Theme.of(context).cardColor,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
                 width: boxWidth,
                 height: boxWidth,
                 child: Center(
-
-                    child: Text(widget.values[i],
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 10),
-                    )),
+                    child: Text(
+                  widget.values[i],
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(fontSize: 10),
+                )),
               ),
-              if (i != 4)
-                const Spacer(),
+              if (i != 4) const Spacer(),
             ]
           ],
         ),

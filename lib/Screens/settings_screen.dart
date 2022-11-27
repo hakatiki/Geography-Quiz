@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           const SizedBox(height: 5),
           DarkModeSettingsCard(),
-          const LogoutSettingsCard(key:Key('f'))
+          const LogoutSettingsCard(key: Key('f'))
         ],
       )),
     );
